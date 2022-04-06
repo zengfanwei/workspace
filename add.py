@@ -109,7 +109,15 @@ def change_talent_big(talent):
     print(response)
 
 
-def removeequipment():  # ET /addResource?serverIdx=0&resType=119&resNum=1&itemId=1010001&otherData=1 HTTP/1.1
+def add_dailytime(time=0):
+    global Token
+    BodyData.update({"command": 9003, "resType": 91, "itemId": 1010001, "resNum": time, "otherData": time, "accessToken": Token})
+    r = requests.post(url=Url, headers=Header, json=BodyData)
+    response = json.loads(r.content)
+    print(response)
+
+
+def removeequipment():
     global Token
     BodyData.update({"command": 9003, "resType": 59, "itemId": 1020001, "resNum": 1, "otherData": 1, "accessToken": Token})
     r = requests.post(url=Url, headers=Header, json=BodyData)
@@ -129,10 +137,10 @@ if __name__ == '__main__':
     level = '120'
     small = '250'
     big = '30'
-    equiplevel = '220'
+    equiplevel = '100'
     petlevel = '100'
     chapter = '1091'
-    equipid = ['3010120', '3020120', '3030120', '3040120', '3050120', '3060120']
+    equipid = ['3010114', '3020114', '3030114', '3040114', '3050114', '3060114']
     petid = ['4012114', '4021114', '4031114']
     for d in Devices:
         login(d)  # 登录
@@ -152,6 +160,8 @@ if __name__ == '__main__':
         change_level(level)
         change_talent_small(small)
         change_talent_big(big)
+        add_dailytime()
         Equips = []
         Pets = []
+
 
