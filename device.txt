@@ -1,0 +1,3 @@
+List of devices attached
+9c13c818	device
+

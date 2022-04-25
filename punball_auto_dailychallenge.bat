@@ -1,0 +1,1 @@
+start "Vivo X30 - challenge" airtest run "D:\workspace\ttt.air" --device Android:///172.16.18.94:7617

@@ -72,12 +72,17 @@ class UserData:
 
 
 if __name__ == '__main__':
-    equiplevel = '200'
-    petlevel = '100'
-    userid = [90005402]
-    equipid = ['3020103']
-    for i in equipid:
-        user = UserData(i)
-        # user.delete_equipment()
-        # print(user.signin())
-        user.add_prop('1', '3020103', equiplevel)
+    # equiplevel = '200'
+    # petlevel = '100'
+    # userid = [90005402]
+    # equipid = ['3020103']
+    # for i in equipid:
+    #     user = UserData(i)
+    #     # user.delete_equipment()
+    #     # print(user.signin())
+    #     user.add_prop('1', '3020103', equiplevel)
+    import subprocess
+    cmd = "adb logcat"
+    fhandle = open(r"D:\test.txt", "w")
+    pipe = subprocess.Popen(cmd, shell=True, stdout=fhandle).stdout
+    fhandle.close()

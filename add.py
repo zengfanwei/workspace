@@ -8,12 +8,15 @@
 
 import requests
 import json
+import random
 
-#  三星Note8 | 三星S10 | OnePlus9 | Realme GT Neo | 三星A51 90005384
+#  三星Note8 | 三星S10 | OnePlus9 | Realme GT Neo | 三星A51 | huwei Nova 3 | vivo U3 | vivo X30
 Devices = ["9053d2ab125149be768598130a580500", "c32afe8bca31f210307c221ed52ed4ca", "fd2b61f64d569ea41f8c574e0eae43d1",
-           "d2605d1fa969ee7a8b7aa8fb43aa2ebc", "1d38177047b1a9f375aca9e7eaa4b035", "04be64cf743b1215baea75187663bfa1",
-           "60097f25edf34cb659d42e871ba620fa"]
-# Devices = ["fd2b61f64d569ea41f8c574e0eae43d1"]
+           "d2605d1fa969ee7a8b7aa8fb43aa2ebc", "1d38177047b1a9f375aca9e7eaa4b035", "f5c481ee2c07ca9259265527e06fb503",
+           "60097f25edf34cb659d42e871ba620fa", "d83628c469a24fedd02bfaac5c5ff28d"]
+# Devices = ["fd2b61f64d569ea41f8c574e0eae43d1", "60097f25edf34cb659d42e871ba620fa",
+#            "1d38177047b1a9f375aca9e7eaa4b035", "f5c481ee2c07ca9259265527e06fb503"]
+# Devices = ["9062530e0891bda60d24d710d549e297"]
 Version = 17
 Header = {"Content-Type": "application/json"}
 Url = "https://test-punball-v2.habby.com/internal"
@@ -51,6 +54,16 @@ def de_equip(devId, rowid):
     BodyData.update({"command": 10305})
     BodyData['commonParams']['deviceId'] = devId
     BodyData['rowIds'] = rowid
+    r = requests.post(url=Url, headers=Header, json=BodyData)
+    response = json.loads(r.content)
+    print(response)
+
+
+def de_card(devId, cards):
+    BodyData.update({"command": 12507})
+    BodyData['commonParams']['deviceId'] = devId
+    BodyData['selectSkillIds'] = cards
+    BodyData['isGiveUp'] = False
     r = requests.post(url=Url, headers=Header, json=BodyData)
     response = json.loads(r.content)
     print(response)
@@ -117,6 +130,29 @@ def add_dailytime(time=0):
     print(response)
 
 
+def towerchapter(time=120):
+    global Token
+    BodyData.update({"command": 9003, "resType": 135, "itemId": 1010001, "resNum": time, "otherData": time, "accessToken": Token})
+    r = requests.post(url=Url, headers=Header, json=BodyData)
+    response = json.loads(r.content)
+    print(response)
+
+
+def towercard(time=4):
+    global Token
+    BodyData.update({"command": 9003, "resType": 145, "itemId": 1010001, "resNum": time, "otherData": time, "accessToken": Token})
+    r = requests.post(url=Url, headers=Header, json=BodyData)
+    response = json.loads(r.content)
+    print(response)
+
+
+def add_towertime(time=0):
+    global Token
+    BodyData.update({"command": 9003, "resType": 132, "itemId": 1010001, "resNum": time, "otherData": time, "accessToken": Token})
+    r = requests.post(url=Url, headers=Header, json=BodyData)
+    response = json.loads(r.content)
+    print(response)
+
 def removeequipment():
     global Token
     BodyData.update({"command": 9003, "resType": 59, "itemId": 1020001, "resNum": 1, "otherData": 1, "accessToken": Token})
@@ -137,30 +173,102 @@ if __name__ == '__main__':
     level = '120'
     small = '250'
     big = '30'
-    equiplevel = '100'
+    equiplevel = '220'
     petlevel = '100'
-    chapter = '1091'
-    equipid = ['3010114', '3020114', '3030114', '3040114', '3050114', '3060114']
-    petid = ['4012114', '4021114', '4031114']
-    for d in Devices:
-        login(d)  # 登录
-        de_equip(d, [])  # 脱装备
-        de_pet(d, [])  # 脱宠物
+    chapter = '1111'
+    equip1 = ['3010120', '3010220', '3010320', '3010420']
+    equip2 = ['3020120', '3020220', '3020320', '3020420']
+    equip3 = ['3030120', '3030220', '3030320', '3030420']
+    equip4 = ['3040120', '3040220', '3040320', '3040420']
+    equip5 = ['3050120', '3050220', '3050320', '3050420']
+    equip6 = ['3060120', '3060220', '3060320', '3060420']
+    equipsss = {0:['3010120', '3020120', '3040120', '3030120', '3050120', '3060120'],
+              1:['3010220', '3020220', '3040220', '3030220', '3050220', '3060220'],
+              2:['3010320', '3020320', '3040320', '3030320', '3050320', '3060320'],
+              3:['3010420', '3020420', '3040420', '3030420', '3050420', '3060420'],
+              4:['3010120', '3020420', '3040320', '3030120', '3050320', '3060420'],
+              5:['3010320', '3020320', '3040220', '3030420', '3050220', '3060320'],
+              6:['3010220', '3020220', '3040420', '3030220', '3050120', '3060220'],
+              7: ['3010420', '3020120', '3040120', '3030320', '3050420', '3060120']}
+    # equipsss = {0:['3010420', '3020120', '3040120', '3030320', '3050420', '3060120'],
+    #           1:['3010120', '3020320', '3040120', '3030220', '3050320', '3060420'],
+    #           2:['3010320', '3020120', '3040220', '3030120', '3050120', '3060220'],
+    #           3:['3010420', '3020220', '3040320', '3030420', '3050220', '3060320'],
+    #           4:['3010220', '3020420', '3040420', '3030320', '3050420', '3060120'],
+    #           5:['3010320', '3020220', '3040220', '3030420', '3050320', '3060420'],
+    #           6:['3010120', '3020320', '3040320', '3030220', '3050320', '3060420'],
+    #           7: ['3010220', '3020220', '3040420', '3030220', '3050120', '3060220']}
+    card = ["6000104","6000204","6000304","6000404","6000504","6000604","6000704","6000804","6000904","6001004","6001104","6001204","6001304","6001404","6001504","6001604","6001704","6001804","6001904","6002004","6002104","6002204","6002304","6002404","6002504","6002604","6002704","6002804","6002904","6003004","6003104","6003204","6003304","6003404","6003504","6003604","6003704","6003804","6003904","6004004","6004104","6004204","6004304","6004404"]
+    pets = ['4010114', '4010214', '4010314', '4011114', '4011214', '4020114', '4020214', '4020314', '4021114', '4021214',
+            '4030114', '4030214', '4030314', '4031114', '4031214', '4040114', '4040214', '4040314', '4041114', '4041214', "4012114"]
+    pettt = {0:['4012114', '4021114', '4031114'],
+             1:['4011114', '4021214', '4031214'],
+             2:['4011214', '4020114', '4041114'],
+             3:['4010114', '4020214', '4041214'],
+             4:['4010214', '4030314', '4040114'],
+             5:['4010314', '4030114', '4040214'],
+             6:['4020314', '4030214', '4040314'],
+             7:['4040214', '4031214', '4040114']}
+    # pettt = {0:['4040214', '4031214', '4040114'],
+    #          1:['4010214', '4041114', '4030214'],
+    #          2:['4020114', '4010114', '4020214'],
+    #          3:['4011214', '4040314', '4011114'],
+    #          4:['4020314', '4021214', '4041214'],
+    #          5:['4010314', '4031114', '4030314'],
+    #          6:['4012114', '4021114', '4030114'],
+    #          7:['4011114', '4021214', '4031214']}
+    # for d in range(len(Devices)):
+    #     login(Devices[d])  # 登录
+    #     de_equip(Devices[d], [])  # 脱装备
+    #     de_pet(Devices[d], [])  # 脱宠物
+    #     removeequipment()  # 删除装备
+    #     removepet()  # 删除宠物
+    #     addResource(random.sample(equip1, 1)[0], '1', equiplevel)
+    #     addResource(random.sample(equip2, 1)[0], '1', equiplevel)
+    #     addResource(random.sample(equip4, 1)[0], '1', equiplevel)
+    #     addResource(random.sample(equip3, 1)[0], '1', equiplevel)
+    #     addResource(random.sample(equip5, 1)[0], '1', equiplevel)
+    #     addResource(random.sample(equip6, 1)[0], '1', equiplevel)
+    #     de_equip(Devices[d], Equips)  # 穿装备
+    #     for p in random.sample(pets, 3):  # 添加宠物
+    #         addResource(p, '1', petlevel)
+    #     de_pet(Devices[d], Pets)  # 上阵宠物
+    #     addResource('1040001', '9000', 0)  # 添加体力
+    #     addResource('1050004', '500', 0)  # 添加挑战券
+    #     change_chapter(chapter)  # 修改章节
+    #     change_level(level)
+    #     change_talent_small(small)
+    #     change_talent_big(big)
+    #     add_dailytime()
+    #     towerchapter()
+    #     towercard()
+    #     add_towertime()
+    #     de_card(Devices[d], random.sample(card, 10))
+    #     Equips = []
+    #     Pets = []
+    for d in range(len(Devices)):
+        login(Devices[d])  # 登录
+        de_equip(Devices[d], [])  # 脱装备
+        de_pet(Devices[d], [])  # 脱宠物
         removeequipment()  # 删除装备
         removepet()  # 删除宠物
-        for e in equipid:  # 添加装备
-            addResource(e, '1', equiplevel)
-        de_equip(d, Equips)  # 穿装备
-        for p in petid:  # 添加宠物
-            addResource(p, '1', petlevel)
-        de_pet(d, Pets)  # 上阵宠物
-        addResource('1040001', '900', 0)  # 添加体力
-        addResource('1050004', '50', 0)  # 添加挑战券
+        for i in equipsss[d]:
+            addResource(i, '1', equiplevel)
+        de_equip(Devices[d], Equips)  # 穿装备
+        for j in pettt[d]:
+            addResource(j, '1', petlevel)
+        de_pet(Devices[d], Pets)  # 上阵宠物
+        addResource('1040001', '9000', 0)  # 添加体力
+        addResource('1050004', '500', 0)  # 添加挑战券
         change_chapter(chapter)  # 修改章节
         change_level(level)
         change_talent_small(small)
         change_talent_big(big)
         add_dailytime()
+        towerchapter()
+        towercard()
+        add_towertime()
+        de_card(Devices[d], random.sample(card, 10))
         Equips = []
         Pets = []
 
