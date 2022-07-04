@@ -46,15 +46,16 @@ class Language():
             print("*****新版本没有丢失多语言*****\n")
         temp = list(set(oldids) - set(lose))
         self.add = list(set(self.newids).difference(set(temp)))  # 获取新增的多语言id列表
+
         ch = 0
         for l in temp:
             if olddic[l] != newdic[l]:
                 ch += 1
                 self.add.append(l)
 
-        print("*****新版本修改了{0}".format(ch)+"条多语言*****")
-        for i in self.add[-ch:]:
-            if i in olddic.keys():
+        print("*****新版本修改了{0}".format(ch) + "条多语言*****")
+        if ch > 0:
+            for i in self.add[-ch:]:
                 print(olddic[i])
         print()
         print("*****新版本新增了{0}".format(len(self.add)-ch)+"条多语言*****\n")
