@@ -12,7 +12,8 @@ direction='left'
 # vivo X30 deviceID
 len = len(sys.argv)
 deviceId=sys.argv[len-1].split("?")[1]
-# 'd83628c469a24fedd02bfaac5c5ff28d'
+# deviceId='d83628c469a24fedd02bfaac5c5ff28d'
+print(deviceId)
 
 def login(devId):
     Header = {"Content-Type": "application/json"}
@@ -71,45 +72,48 @@ for i in range(Looptime):
                 touch(Template(r"tpl1648805770254.png", record_pos=(0.182, 0.333), resolution=(1440, 3040)))
                 sleep(5)
             
-        while True:
-            #选择技能#    
-            if exists(Template(r"tpl1648782461084.png", record_pos=(-0.002, -0.488), resolution=(1080, 2220))):
-                print('Round '+ str(LoopNow) +':Select Skill')
-                touch(v=(0.45*width,0.55*height))
-                sleep(5)
+    while True:
+        #选择技能#    
+        if exists(Template(r"tpl1648782461084.png", record_pos=(-0.002, -0.488), resolution=(1080, 2220))):
+            print('Round '+ str(LoopNow) +':Select Skill')
+            touch(v=(0.45*width,0.55*height))
+            sleep(5)
 
-            #开始战斗#
-            if exists(Template(r"tpl1649231601152.png", record_pos=(-0.43, -0.951), resolution=(1080, 2400))):
-                if direction=='left':
-                    print('Round '+ str(LoopNow) +':Attack Left')
-                    touch(v=(0.11*width,0.7*height),duration=0.5)
-                    direction='right'
-                    sleep(3)
-                elif direction=='right':
-                    print('Round '+ str(LoopNow) +':Attack Right')
-                    touch(v=(0.89*width,0.7*height),duration=0.5)
-                    direction='left'
-                    sleep(3)
 
-            #结算#
-            if exists(Template(r"tpl1648783312509.png", record_pos=(-0.003, -0.011), resolution=(1080, 2220))):
-                print('Round '+ str(LoopNow) +':Battle finish')
-                sleep(5)
-                touch(v=(0.5*width,0.98*height))
-                print('Round '+ str(LoopNow) +':touch screen1')
-                sleep(5)
-                touch(v=(0.5*width,0.98*height))
-                print('Round '+ str(LoopNow) +':touch screen2')
-                token=login(deviceId)
-                resetChallenge(token,deviceId)
-                sleep(8)
-                keyevent("HOME")
+        #结算#
+        if exists(Template(r"tpl1648783312509.png", record_pos=(-0.003, -0.011), resolution=(1080, 2220))):
+            print('Round '+ str(LoopNow) +':Battle finish')
+            sleep(8)
+            touch(v=(0.5*width,0.98*height))
+            print('Round '+ str(LoopNow) +':touch screen1')
+            sleep(8)
+            touch(v=(0.5*width,0.98*height))
+            print('Round '+ str(LoopNow) +':touch screen2')            
+            token=login(deviceId)
+            resetChallenge(token,deviceId)
+            sleep(8)
+            keyevent("HOME")
+            sleep(3)
+#             touch(Template(r"tpl1649215287398.png", record_pos=(-0.119, -0.773), resolution=(1080, 2400)))
+            start_app("com.habby.punball")
+            sleep(2)
+            touch(Template(r"tpl1649215393909.png", record_pos=(-0.255, 1.018), resolution=(1080, 2400)))
+            sleep(2)
+            touch(Template(r"tpl1649215410684.png", record_pos=(0.081, 1.018), resolution=(1080, 2400)))
+            sleep(2)
+            break
+
+        #开始战斗#
+        else:
+            if direction=='left':
+                print('Round '+ str(LoopNow) +':Attack Left')
+                touch(v=(0.11*width,0.7*height),duration=0.5)
+                direction='right'
                 sleep(3)
-                touch(Template(r"tpl1649215287398.png", record_pos=(-0.119, -0.773), resolution=(1080, 2400)))
-                sleep(2)
-                touch(Template(r"tpl1649215393909.png", record_pos=(-0.255, 1.018), resolution=(1080, 2400)))
-                sleep(2)
-                touch(Template(r"tpl1649215410684.png", record_pos=(0.081, 1.018), resolution=(1080, 2400)))
-                sleep(2)
-                break
+            elif direction=='right':
+                print('Round '+ str(LoopNow) +':Attack Right')
+                touch(v=(0.89*width,0.7*height),duration=0.5)
+                direction='left'
+                sleep(3)
+
                 

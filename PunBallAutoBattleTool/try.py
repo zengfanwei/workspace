@@ -95,6 +95,7 @@ class MyForm(wx.Frame):
         self.grid = wx.GridBagSizer(hgap=5, vgap=2)  # 行和列的间距  像素
 
         self.numbers = list(SerialNumber.values())
+        print(self.numbers)
         self.l = len(self.numbers)
 
         self.connectButton = wx.Button(self.panel, label='1.租用设备')
@@ -109,14 +110,16 @@ class MyForm(wx.Frame):
             create = """
 self.d{0} = wx.CheckBox(self.panel, label=self.numbers[{1}])
 self.d{2}.SetValue(0)
-self.d{3}.Enable(False)
 self.grid.Add(self.d{4}, pos=({5}, 0), span=(1, 1))
 self.Bind(wx.EVT_CHECKBOX, self.checkBox, self.d{6})""".format(i, i, i, i, i, i+1, i)
             exec(create)
-        self.chooseButton = wx.Button(self.panel, label='2.连接设备')
+        self.chooseButton = wx.Button(self.panel, label='2.选择设备')
         self.chooseButton.Enable(False)
         self.grid.Add(self.chooseButton, pos=(self.l, 2), span=(1, 1))
         self.Bind(wx.EVT_BUTTON, self.onchooseButton, self.chooseButton)
+        # self.rechooseButton = wx.Button(self.panel, label='重新选择设备')
+        # self.grid.Add(self.rechooseButton, pos=(self.l, 3), span=(1, 1))
+        # self.Bind(wx.EVT_BUTTON, self.onrechooseButton, self.rechooseButton)
 
         self.cases = wx.StaticText(self.panel, label='现有自动化脚本：')
         self.grid.Add(self.cases, pos=(self.l+2, 0))
@@ -131,6 +134,9 @@ self.Bind(wx.EVT_CHECKBOX, self.checkBoxDir, self.dir{5})""".format(i, i, i, i, 
         self.chooseDir = wx.Button(self.panel, label='3.选择脚本')
         self.grid.Add(self.chooseDir, pos=(self.l+2+self.dl, 2), span=(1, 1))
         self.Bind(wx.EVT_BUTTON, self.onchooseDir, self.chooseDir)
+        self.rechooseDir = wx.Button(self.panel, label='重新选择脚本')
+        self.grid.Add(self.rechooseDir, pos=(self.l+2+self.dl, 3), span=(1, 1))
+        self.Bind(wx.EVT_BUTTON, self.onrechooseDir, self.rechooseDir)
         self.run = wx.Button(self.panel, label='4.用指定设备运行所选脚本')
         self.grid.Add(self.run, pos=(self.l+3+self.dl, 2), span=(1, 1))
         self.Bind(wx.EVT_BUTTON, self.dirRun, self.run)
@@ -147,7 +153,8 @@ self.{0}Stop.Enable(False)
 self.Bind(wx.EVT_BUTTON, self.stopCmd, self.{0}Stop)""".format(devstatic)
             exec(create)
         self.clearButton = wx.Button(self.panel, label='清空')
-        self.grid.Add(self.clearButton, pos=(28, 2))
+        self.grid.Add(self.clearButton, pos=(34, 2))
+        self.Bind(wx.EVT_BUTTON, self.onclearButton, self.clearButton)
 
         self.logger = wx.TextCtrl(self.panel, style=wx.TE_MULTILINE | wx.HSCROLL | wx.TE_RICH2 | wx.TE_READONLY)  #
 
@@ -180,7 +187,13 @@ self.dir{0}.Enable(True)
                 exec(temp)
 
     def onconnectButton(self, event):
-        self.dip = rentDevices()
+        self.getChooseDev("d")
+        rent = {}
+        for d in self.chooseDev:
+            for s, n in SerialNumber.items():
+                if d == n:
+                    rent[s] = n
+        self.dip = rentDevices(rent)
         for d, ip in self.dip.items():
             print(d, ip)
         for i in range(len(self.numbers)):
@@ -189,22 +202,45 @@ self.d{0}.Enable(True)""".format(i)
             exec(temp)
 
     def ondisrent(self, event):
-        disrentDevices()
+        rent = {}
+        for d in self.chooseDev:
+            for s, n in SerialNumber.items():
+                if d == n:
+                    rent[s] = n
+        disrentDevices(rent)
+
+    def getChooseDev(self, event):
+        self.chooseDev = []
+        self.chooseDir = ''
+        if event == "d":
+            for i in range(self.l):
+                temp = """
+if self.d{0}.IsChecked():
+    self.chooseDev.append(self.d{1}.Label)""".format(i, i)
+                exec(temp)
+        if event == "dir":
+            for i in range(len(self.dircase)):
+                temp = """
+if self.dir{0}.IsChecked():
+    self.dir{1}.Enable(False)
+    self.chooseDir = self.dir{2}.Label""".format(i, i, i)
+                exec(temp)
 
     def onchooseButton(self, event):
-        self.chooseDev = []
-        for i in range(self.l):
-            temp = """
-if self.d{0}.IsChecked():
-    self.d{1}.Enable(False)
-    self.chooseDev.append(self.d{2}.Label)""".format(i, i, i)
-            exec(temp)
+        self.getChooseDev("d")
         if self.chooseDev == []:
             print("没有选择任何一台设备！！！！！")
         else:
             print(self.chooseDev)
         self.connectDev()
         return self.chooseDev
+
+    def onrechooseButton(self, event):
+        self.chooseDev = []
+#         for i in range(self.l):
+#             temp = """
+# self.d{0}.Enable(True)""".format(i)
+#             exec(temp)
 
     def connectDev(self):
         for d in self.chooseDev:
@@ -214,18 +250,18 @@ if self.d{0}.IsChecked():
             adb.stop()
 
     def onchooseDir(self, event):
-        self.chooseDir = ''
-        for i in range(len(self.dircase)):
-            temp = """
-if self.dir{0}.IsChecked():
-    self.dir{1}.Enable(False)
-    self.chooseDir = self.dir{2}.Label""".format(i, i, i)
-            exec(temp)
+        self.getChooseDev("dir")
         if '' == self.chooseDir:
             print("没有选择任何一个脚本！！！！！")
         else:
             print(self.chooseDir)
         return self.chooseDir
+
+    def onrechooseDir(self, event):
+        for i in range(len(self.dircase)):
+            temp = """
+self.dir{0}.Enable(True)""".format(i)
+            exec(temp)
 
     def dirRun(self, event):
         for dev in self.chooseDev:

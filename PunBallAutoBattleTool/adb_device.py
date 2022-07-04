@@ -13,9 +13,9 @@ import json
 from config import STF1, STF2, TOKEN, URL, CONNECT1, CONNECT2, CONNECT3, SerialNumber, DisCONNECT
 
 
-def rentDevices():
+def rentDevices(rd):
     deviceIp = {}
-    for serial, dev in SerialNumber.items():
+    for serial, dev in rd.items():
         rent = STF1 + serial + STF2 + TOKEN + URL
         # print(rent)
         connect = CONNECT1 + TOKEN + URL + CONNECT2 + serial + CONNECT3
@@ -37,8 +37,8 @@ def rentDevices():
     return deviceIp
 
 
-def disrentDevices():
-    for serial, dev in SerialNumber.items():
+def disrentDevices(dd):
+    for serial, dev in dd.items():
         disrent = DisCONNECT + TOKEN + URL + CONNECT2 + serial
         print(disrent)
         with os.popen(disrent) as pp:

@@ -26,13 +26,13 @@ class Language():
         new = xlrd.open_workbook(self.newpath)
         self.old = old.sheet_by_name('Language')
         self.new = new.sheet_by_name('Language')
-        self.country = self.new.row_values(2, start_colx=3)
+        self.country = self.new.row_values(2, start_colx=3)  # 获取多语言国家种类列表
         olddic = {}
         newdic = {}
-        oldids = self.old.col_values(1)
-        self.newids = self.new.col_values(1)
-        oldtip = self.old.col_values(3)
-        newtip = self.new.col_values(3)
+        oldids = self.old.col_values(1)  # 获取多语言id
+        self.newids = self.new.col_values(1)  # 获取多语言id
+        oldtip = self.old.col_values(3)  # 获取简体中文描述列表
+        newtip = self.new.col_values(3)  # 获取简体中文描述列表
         for i in range(len(oldids)):
             olddic[oldids[i]] = oldtip[i]
         for j in range(len(self.newids)):
@@ -45,7 +45,7 @@ class Language():
         else:
             print("*****新版本没有丢失多语言*****\n")
         temp = list(set(oldids) - set(lose))
-        self.add = list(set(self.newids).difference(set(oldids)))
+        self.add = list(set(self.newids).difference(set(temp)))  # 获取新增的多语言id列表
         ch = 0
         for l in temp:
             if olddic[l] != newdic[l]:
@@ -54,7 +54,8 @@ class Language():
 
         print("*****新版本修改了{0}".format(ch)+"条多语言*****")
         for i in self.add[-ch:]:
-            print(olddic[i])
+            if i in olddic.keys():
+                print(olddic[i])
         print()
         print("*****新版本新增了{0}".format(len(self.add)-ch)+"条多语言*****\n")
 
@@ -67,8 +68,8 @@ class Language():
         for i in range(len(self.add)):
             ind = self.newids.index(self.add[i])
             countrys = self.new.row_values(ind, start_colx=3)
-            asia = countrys[2:4] + countrys[0:1] + countrys[8:9]
-            other = countrys[4:8] + countrys[1:2] + countrys[9:]
+            asia = countrys[2:4] + countrys[0:1] + countrys[8:9]  # 亚洲国家
+            other = countrys[4:8] + countrys[1:2] + countrys[9:]  # 非亚洲国家
             # 检查新增的多语言有哪些没有配置全
             if '' in countrys:
                 writer.writerow([countrys[0], '多语言配置不全!!!!!'])

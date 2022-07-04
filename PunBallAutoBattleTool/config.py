@@ -13,15 +13,19 @@ SerialNumber = {"V9D4C18424001837": "Huawei_Nova3e",
                 "R28M61D72RH": "Samsung_s10",
                 "ce071717f19f08d40b7e": "Samsung_Note_8",
                 "0000020d2c5b874e": "Vivo_X30",
-                "9e1940a": "Vivo_U3"}
+                "9e1940a": "Vivo_U3",
+                "9c13c818": "Oppo_R11t",
+                "7ce0cc22": "Oppo_R15"}
 DeviceToken = {"Huawei_Nova3e": "f5c481ee2c07ca9259265527e06fb503",
                "Oneplus_9": "fd2b61f64d569ea41f8c574e0eae43d1",
                "Realme_GT_Neo": "d2605d1fa969ee7a8b7aa8fb43aa2ebc",
                "Samsung_A51": "1d38177047b1a9f375aca9e7eaa4b035",
                "Samsung_s10": "c32afe8bca31f210307c221ed52ed4ca",
-               "Samsung_Note_8": "9e1031012d3607b6e9028c4948668511",
+               "Samsung_Note_8": "9053d2ab125149be768598130a580500",
                "Vivo_X30": "d83628c469a24fedd02bfaac5c5ff28d",
-               "Vivo_U3": "60097f25edf34cb659d42e871ba620fa"}
+               "Vivo_U3": "60097f25edf34cb659d42e871ba620fa",
+               "Oppo_R15": "9053d2ab125149be768598130a580500",
+               "Oppo_R11t": "9e1031012d3607b6e9028c4948668511"}
 
 TOKEN = '4ac910fa1fb74d69bf664b08d98bb2ea336633171eb7475ba05b83400c9d5e63'
 STF1 = 'curl -X POST --header "Content-Type: application/json" --data "{\\"serial\\":\\"'
@@ -38,4 +42,4 @@ ComUSERNAME = 'HabbyQA'
 ComPASSWORD = 'habby2019'
 BAT_RUNNER_PATH = "D:\\workspace\\PunBallAutoBattleTool\\deviceRunner.bat"
 DirPath = "D:\\airtest-case\\Punball"
-# airtest run D:/airtest-case/Punball/AutoBattle_Challenge_Poco.air --device Android:///172.16.18.94:7441?fd2b61f64d569ea41f8c574e0eae43d1
+

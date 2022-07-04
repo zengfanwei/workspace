@@ -70,9 +70,10 @@ if __name__ == '__main__':
     # time.sleep(30)
     # hhhh.stop()
     # vvvv.stop()
-    ls = remote_control('dir D:\\airtest-case\\Punball')
-    text = ls.run()
-    print(text.decode("gbk").encode("utf-8").decode())
+    ls = remote_control('python -h')
+    text = ls.run()[1]
+    dirs = []
+    result = text.read().decode()
     # text = ls.run()
     # dirs = []
     # result = text.read().decode("gbk").encode("utf-8").decode()
