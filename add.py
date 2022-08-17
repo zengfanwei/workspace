@@ -11,12 +11,12 @@ import json
 import random
 
 #  三星Note8 | 三星S10 | OnePlus9 | Realme GT Neo | 三星A51 | huwei Nova 3 | vivo U3 | vivo X30
-Devices = ["9053d2ab125149be768598130a580500", "c32afe8bca31f210307c221ed52ed4ca", "fd2b61f64d569ea41f8c574e0eae43d1",
-           "d2605d1fa969ee7a8b7aa8fb43aa2ebc", "1d38177047b1a9f375aca9e7eaa4b035", "f5c481ee2c07ca9259265527e06fb503",
-           "60097f25edf34cb659d42e871ba620fa", "d83628c469a24fedd02bfaac5c5ff28d", "9e1031012d3607b6e9028c4948668511"]
+# Devices = ["9053d2ab125149be768598130a580500", "c32afe8bca31f210307c221ed52ed4ca", "fd2b61f64d569ea41f8c574e0eae43d1",
+#            "d2605d1fa969ee7a8b7aa8fb43aa2ebc", "1d38177047b1a9f375aca9e7eaa4b035", "f5c481ee2c07ca9259265527e06fb503",
+#            "60097f25edf34cb659d42e871ba620fa", "d83628c469a24fedd02bfaac5c5ff28d", "9e1031012d3607b6e9028c4948668511"]
 # Devices = ["79618bb4a50274dcfe40e7a154ea77b7"]
-# Devices = ["fd2b61f64d569ea41f8c574e0eae43d1", "60097f25edf34cb659d42e871ba620fa",
-#            "1d38177047b1a9f375aca9e7eaa4b035", "f5c481ee2c07ca9259265527e06fb503"]
+Devices = ["e0372a7642eca61f29c36525f46a3739", "9e1031012d3607b6e9028c4948668511", "d2605d1fa969ee7a8b7aa8fb43aa2ebc",
+           "f5c481ee2c07ca9259265527e06fb503", "892d055d5f7dd4add4c53adaaba2e8f1", "412aabd783d9dcd5b57fed2867097183"]
 # Devices = ["9e1031012d3607b6e9028c4948668511"]
 Version = 17
 Header = {"Content-Type": "application/json"}
@@ -225,14 +225,14 @@ if __name__ == '__main__':
     card = ["6000104","6000204","6000304","6000404","6000504","6000604","6000704","6000804","6000904","6001004","6001104","6001204","6001304","6001404","6001504","6001604","6001704","6001804","6001904","6002004","6002104","6002204","6002304","6002404","6002504","6002604","6002704","6002804","6002904","6003004","6003104","6003204","6003304","6003404","6003504","6003604","6003704","6003804","6003904","6004004","6004104","6004204","6004304","6004404"]
     pets = ['4010114', '4010214', '4010314', '4011114', '4011214', '4020114', '4020214', '4020314', '4021114', '4021214',
             '4030114', '4030214', '4030314', '4031114', '4031214', '4040114', '4040214', '4040314', '4041114', '4041214', "4012114", "4032114"]
-    pettt = {0:['4012114', '4021114', '4031114'],
-             1:['4011114', '4021214', '4031214'],
-             2:['4011214', '4020114', '4041114'],
-             3:['4010114', '4020214', '4041214'],
-             4:['4010214', '4030314', '4040114'],
-             5:['4010314', '4030114', '4040214'],
-             6:['4020314', '4030214', '4040314'],
-             7:['4040214', '4031214', '4040114']}
+    pettt = {0:['4012114', '4021114', '4042114'],
+             1:['4011114', '4021214', '4042114'],
+             2:['4011214', '4020114', '4042114'],
+             3:['4010114', '4020214', '4042114'],
+             4:['4010214', '4030314', '4042114'],
+             5:['4010314', '4030114', '4042114'],
+             6:['4020314', '4030214', '4042114'],
+             7:['4040214', '4031214', '4042114']}
     # pettt = {0:['4040214', '4031214', '4040114'],
     #          1:['4010214', '4041114', '4030214'],
     #          2:['4020114', '4010114', '4020214'],
@@ -272,34 +272,34 @@ if __name__ == '__main__':
     #     Pets = []
     for d in range(len(Devices)):
         login(Devices[d])  # 登录
-        # de_equip(Devices[d], [])  # 脱装备
-        # de_pet(Devices[d], [])  # 脱宠物
-        # removeequipment()  # 删除装备
-        # removepet()  # 删除宠物
-        # del_skills()
-        # for i in equipsss[d]:
-        #     addResource(i, '1', equiplevel)
-        # de_equip(Devices[d], Equips)  # 穿装备
-        # for j in pettt[d]:
-        #     # for j in ["4020314", "4012114", "4032114"]:
-        #     addResource(j, '1', petlevel)
-        # de_pet(Devices[d], Pets)  # 上阵宠物
-        # for s in skills:
-        #     addResource(s, '1', '1')
-        # de_skill(Devices[d], random.sample(SkillsList, 3))
-        # addResource('1040001', '9000', 0)  # 添加体力
-        # addResource('1050004', '500', 0)  # 添加挑战券
         change_chapter(chapter)  # 修改章节
-        # change_level(level)
-        # change_talent_small(small)
-        # change_talent_big(big)
-        # add_dailytime()
-        # towerchapter()
-        # towercard()
-        # add_towertime()
-        # de_card(Devices[d], random.sample(card, 10))
-        # # de_card(Devices[d], [6001504,6000204,6000304,6000704,6003404,6003504,6002004,6003304,6002204,6000104])
-        # Equips = []
-        # Pets = []
+        de_equip(Devices[d], [])  # 脱装备
+        de_pet(Devices[d], [])  # 脱宠物
+        removeequipment()  # 删除装备
+        removepet()  # 删除宠物
+        del_skills()
+        for i in equipsss[d]:
+            addResource(i, '1', equiplevel)
+        de_equip(Devices[d], Equips)  # 穿装备
+        for j in pettt[d]:
+            # for j in ["4020314", "4012114", "4032114"]:
+            addResource(j, '1', petlevel)
+        de_pet(Devices[d], Pets)  # 上阵宠物
+        for s in skills:
+            addResource(s, '1', '1')
+        de_skill(Devices[d], random.sample(SkillsList, 3))
+        addResource('1040001', '9000', 0)  # 添加体力
+        addResource('1050004', '500', 0)  # 添加挑战券
+        change_level(level)
+        change_talent_small(small)
+        change_talent_big(big)
+        add_dailytime()
+        towerchapter()
+        towercard()
+        add_towertime()
+        de_card(Devices[d], random.sample(card, 10))
+        # de_card(Devices[d], [6001504,6000204,6000304,6000704,6003404,6003504,6002004,6003304,6002204,6000104])
+        Equips = []
+        Pets = []
 
 

@@ -66,68 +66,6 @@ def getDevices():
         return text
 
 
-def connectDevice(ip_port):
-    """
-    adb连接设备
-    :param newDevInfo: str，新设备的 ip:端口
-    :return:(bool, str)
-    """
-
-    cmd_command = 'adb connect ' + ip_port
-    with os.popen(cmd_command) as p:
-        text = p.read()
-
-    # 通过json配置文件，获取设备名称
-    ipPort_deviceName_dict = getDataFromCof()
-    #    print type(ipPort_deviceName_dict)
-
-    device_name = ''
-    if ip_port in ipPort_deviceName_dict.keys():
-        device_name = ipPort_deviceName_dict[ip_port]
-
-    # 判断连接是否成功
-    str = 'connected to ' + ip_port + '\n'
-    if text == str:
-        return (True, "设备连接成功: %s" % device_name)
-    else:
-        return (False, text + device_name)
-
-
-def refreshDevices():
-    '''
-    获取已连接adb设备信息，刷新工具栏
-    return: 如果有设备连接，返回设备信息[(ip_port, state, name)......]；否则返回str
-    '''
-    cmd_command = 'adb devices'
-    with os.popen(cmd_command) as p:
-        text = p.read()
-
-    info = text.replace('List of devices attached', '').strip('\n')
-    p = r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):\d{4,5}$"
-
-    if '' == info:  # 没有设备连接
-        return "没有检测到设备！(0)"
-    elif re.match(p, info.split("\t")[0]):  # 有设备连接
-        deviceList = info.split('\n')
-        stateList = []
-        for device in deviceList:
-            ip_port, state = device.split("\t")
-
-            # 通过json配置文件，获取设备名称
-            ipPort_deviceName_dict = getDataFromCof()
-            name = ipPort_deviceName_dict.get(ip_port, "UnknownDevice")
-            if name == "UnknownDevice":
-                print("发现未知设备:", ip_port)
-
-            tup = (ip_port, state, name)
-            stateList.append(tup)
-
-        #        print "adb_device.py - type(stateList), stateList: ", type(stateList), stateList
-        return stateList
-    else:
-        return text
-
-
 '''
 # 获取运行设备的LOG信息
 def getDeviceLog():

@@ -82,6 +82,40 @@
 # print(l.split("：")[2].rstrip("；\n").split("；"))
 # ff = 2.21000000001
 # print(round(ff, 2))
-from add import addResource, login
-login("79618bb4a50274dcfe40e7a154ea77b7")
-addResource("7001020", '1', '1')
+# from add import addResource, login
+# login("79618bb4a50274dcfe40e7a154ea77b7")88
+# addResource("7001020", '1', '1')
+# import xlrd
+# old = xlrd.open_workbook("C:\\Users\\zengf\\Documents\\WeChat Files\\wxid_sgd8dxwtyp9722\\FileStorage\\MsgAttach\\36620fd6c48d3b8689c2b1219f1c14ec\\File\\2022-07\\slidey.xlsx")
+# ll = old.sheet_by_name('Sheet1')
+#
+# print(ll.row_values(2))
+#
+# import subprocess
+# if "package:com.habby.punball" in subprocess.Popen("adb -s 172.16.18.94:7417 shell pm list packages", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf-8').communicate()[0]:
+#     print(subprocess.Popen("adb -s 172.16.18.94:7417 shell pm list packages", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf-8').communicate()[0])
+# if "package:com.habby.punball" in subprocess.Popen("adb -s 172.16.18.94:7417 shell pm list packages", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf-8').communicate()[0]:
+#     print(56457)
+# ll = subprocess.Popen("adb -s 172.16.18.94:7409 install D:\\workspace\\Punball_2_0_0(289)Debug.apk", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf-8')
+# print(ll.communicate()[0])
+from translate import Translator
+
+#
+# print(Translator(from_lang="Chinese", to_lang="EN-GB").translate("复活币"))
+# print(Translator(from_lang="EN-US", to_lang="Chinese").translate("Get Gold from Quick Patrol once"))
+# # print(Translator(from_lang="Chinese", to_lang="FR").translate("复活币"))
+# # print(Translator(from_lang="Chinese", to_lang="DE").translate("复活币"))
+# # print(Translator(from_lang="Chinese", to_lang="ID").translate("复活币"))
+# print(Translator(from_lang="Chinese", to_lang="Japanese").translate("活"))
+# print(Translator(from_lang="Chinese", to_lang="TR").translate("复活币"))
+
+# tt = '通关奖励'.encode('GB18030').decode('euc_kr')
+# print(tt)
+# ll = '클리어 보상'.encode('EUC_KR').decode(encoding='GBK')
+# print(ll)
+import zhconv
+text = "每周限量"
+tt = zhconv.convert(text, 'zh-tw')
+print(tt)
+text = "儲值雙倍"
+print(zhconv.convert(text, 'zh-cn'))
