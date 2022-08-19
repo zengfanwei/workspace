@@ -8,7 +8,7 @@
 import sys, wx, time, os
 from wx.lib.mixins.listctrl import CheckListCtrlMixin, ListCtrlAutoWidthMixin
 from config import SerialNumber, DirPath, PunBallDeviceToken
-from adb_device import rentDevices, disrentDevices
+from adb_device import rentDevices, disrentDevices, getOnlineDev
 from SSH import remote_control
 from installAPK import installAll
 import threading
@@ -75,7 +75,7 @@ class MyForm(wx.Frame):
         m = wx.DisplaySize()
         screenWidth = m[0]
         screenHigh = m[1]
-        self.frame = wx.Frame.__init__(self, None, title="弹球自动战斗测试工具", size=(screenWidth, screenHigh), pos=(0, 0))
+        self.frame = wx.Frame.__init__(self, None, title="自动战斗辅助测试工具", size=(screenWidth, screenHigh), pos=(0, 0))
 
         self.findDlg = None
         self.findData = wx.FindReplaceData()
@@ -98,7 +98,8 @@ class MyForm(wx.Frame):
         self.panel = wx.Panel(self, wx.ID_ANY)
         self.grid = wx.GridBagSizer(hgap=5, vgap=2)  # 行和列的间距  像素
 
-        self.numbers = list(SerialNumber.values())
+        self.serialdev = getOnlineDev()
+        self.numbers = list(self.serialdev.values())
         # print(self.numbers)
         self.l = len(self.numbers)
 
@@ -119,7 +120,7 @@ self.Bind(wx.EVT_CHECKBOX, self.checkBox, self.d{6})""".format(i, i, i, i, i, i+
             exec(create)
         self.chooseButton = wx.Button(self.panel, label='2.选择设备')
         self.chooseButton.Enable(False)
-        self.grid.Add(self.chooseButton, pos=(self.l-1, 2), span=(1, 1))
+        self.grid.Add(self.chooseButton, pos=(self.l, 2), span=(1, 1))
         self.Bind(wx.EVT_BUTTON, self.onchooseButton, self.chooseButton)
         # self.rechooseButton = wx.Button(self.panel, label='重新选择设备')
         # self.grid.Add(self.rechooseButton, pos=(self.l, 3), span=(1, 1))
@@ -142,18 +143,18 @@ self.Bind(wx.EVT_CHECKBOX, self.checkBox, self.d{6})""".format(i, i, i, i, i, i+
         # self.Bind(wx.EVT_BUTTON, self.installAPK, self.installAllapk)
         self.dircase = getdircase(self.names.GetValue())
         self.dl = len(self.dircase)
-        temp = 0
+        # temp = 0
         for i in range(self.dl):
             create = """
 self.dir{0} = wx.CheckBox(self.panel, label=self.dircase[{1}])
 self.dir{2}.SetValue(0)
-self.grid.Add(self.dir{3}, pos=({4}, {5}), span=(1, 1))
-self.Bind(wx.EVT_CHECKBOX, self.checkBoxDir, self.dir{6})""".format(i, i, i, i, i + self.l+4, temp, i)
+self.grid.Add(self.dir{3}, pos=({4}, 0), span=(1, 1))
+self.Bind(wx.EVT_CHECKBOX, self.checkBoxDir, self.dir{6})""".format(i, i, i, i, i + self.l+3, 0, i)
             exec(create)
-            if temp == 0:
-                temp = 1
-            else:
-                temp = 0
+            # if temp == 0:
+            #     temp = 1
+            # else:
+            #     temp = 0
         self.chooDir = wx.Button(self.panel, label='3.选择脚本')
         self.grid.Add(self.chooDir, pos=(self.l+2+self.dl, 2), span=(1, 1))
         self.Bind(wx.EVT_BUTTON, self.onchooseDir, self.chooDir)
@@ -223,7 +224,7 @@ self.dir{0}.Enable(True)
         self.getChooseDev("d")
         rent = {}
         for d in self.chooseDev:
-            for s, n in SerialNumber.items():
+            for s, n in self.serialdev.items():
                 if d == n:
                     rent[s] = n
         self.dip = rentDevices(rent)
@@ -237,7 +238,7 @@ self.d{0}.Enable(True)""".format(i)
     def ondisrent(self, event):
         rent = {}
         for d in self.chooseDev:
-            for s, n in SerialNumber.items():
+            for s, n in self.serialdev.items():
                 if d == n:
                     rent[s] = n
         disrentDevices(rent)
@@ -358,8 +359,7 @@ if target == self.{0}Stop.Id:
         '''处理菜单栏查找按钮功能'''
         if self.findDlg != None:
             return
-        self.findDlg = wx.FindReplaceDialog(self, self.findData, "Find",
-                                            wx.FR_NOMATCHCASE | wx.FR_NOWHOLEWORD)
+        self.findDlg = wx.FindReplaceDialog(self, self.findData, "Find", wx.FR_NOMATCHCASE | wx.FR_NOWHOLEWORD)
         self.findDlg.Show(True)
 
     def onclearButton(self, event):

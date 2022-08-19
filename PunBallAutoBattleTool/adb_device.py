@@ -10,7 +10,8 @@
 import os
 import re
 import json
-from config import STF1, STF2, TOKEN, URL, CONNECT1, CONNECT2, CONNECT3, SerialNumber, DisCONNECT
+from config import STF1, STF2, TOKEN, URL, CONNECT1, CONNECT2, CONNECT3, SerialNumber, DisCONNECT, ONLINE1, ONLINE2
+import subprocess
 
 
 def rentDevices(rd):
@@ -46,6 +47,23 @@ def disrentDevices(dd):
             print("disrent: ", type(text), text)
             if '"success":true' not in text:
                 print("设备：{0}取消租用失败！！！！！".format(dev))
+
+
+def getOnlineDev():
+    onlineDev = {}
+    online = ONLINE1 + TOKEN + ONLINE2
+    with subprocess.Popen(online, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as p:
+        text = p.stdout.read().decode('gbk', 'ignore')
+        if '"success":true' not in text:
+            print("获取在线设备失败！！！！！")
+        else:
+            data = json.loads(text)
+            for info in data['devices']:
+                if info['present'] == True:
+                    # onlineDev.append(info['serial'])
+                    onlineDev[info['serial']] = info['notes']
+    # print(onlineDev)
+    return onlineDev
 
 
 def getDevices():
@@ -94,4 +112,4 @@ def getDeviceLog():
 
 if __name__ == '__main__':
     # devs = refreshDevices()
-    rentDevices()
+    getOnlineDev()
